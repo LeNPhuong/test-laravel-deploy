@@ -4,3 +4,4 @@
 
 # Tạo thư mục env và vào drive lấy dữ liệu env https://drive.google.com/drive/folders/1cFvnYvwcxxqqK1T6u4XbhIqQ0rwqCSbk?usp=drive_link
 
+# php artisan jwt:secret 
