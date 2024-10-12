@@ -16,6 +16,13 @@ Route::group([
     Route::post('/profile',[AuthController::class,'profile'])->middleware('auth:api');
 });
 
+//Demo phân quyền
+// Route::middleware(['auth:api', 'admin'])->group(function () {
+//     Route::get('/admin/dashboard', function() {
+//         die('123');
+//     });
+// });
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();

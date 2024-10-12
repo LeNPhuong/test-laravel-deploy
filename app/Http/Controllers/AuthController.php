@@ -68,6 +68,7 @@ class AuthController extends BaseController
             'email' => $user->email,
             'phone' => $user->phone,
             'avatar' => $user->avatar,
+            'role' => $user->role,
         ];
 
         return $this->sendResponse($success, 'Vào hồ sơ tài khoản thành công');
