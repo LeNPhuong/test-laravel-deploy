@@ -56,7 +56,7 @@ class AuthController extends BaseController
     public function logout()
     {
         auth()->logout();
-        return $this->sendResponse('','Đăng xuất thành công');
+        return $this->sendResponse('', 'Đăng xuất thành công');
     }
     public function profile()
     {
@@ -64,6 +64,7 @@ class AuthController extends BaseController
         $user = auth()->user();
         // Chọn chỉ những trường cần thiết
         $success = [
+            'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
