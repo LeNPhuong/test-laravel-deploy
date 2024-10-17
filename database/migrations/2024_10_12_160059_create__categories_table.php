@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->string('name',191);
-            $table->string('slug',191);
-            $table->string('icon',191);
-            $table->string('avatar',191);
-            $table->tinyInteger('active');
-            $table->integer('total_product');
+            $table->string('key',191);
+            $table->boolean('active')->default(true); // Trạng thái active (true/false)
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

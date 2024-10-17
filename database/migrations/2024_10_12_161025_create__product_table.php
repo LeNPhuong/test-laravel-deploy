@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // ID của sản phẩm
             $table->foreignId(column: 'cate_id')->nullable()->constrained('categories')->onDelete('set null');
-            $table->string('name_product',500);
-            $table->double('old_product');
-            $table->double('sale_product')->nullable();
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->string('name'); // Tên sản phẩm
+            $table->decimal('price', 10, 2); // Giá sản phẩm (số thập phân)
+            $table->integer('sale')->unsigned()->default(0); // Sale (phần trăm giảm giá, không lớn hơn 100 và không nhỏ hơn 0)
+            $table->string('img'); // Link ảnh sản phẩm
+            $table->string('type'); // Loại sản phẩm
+            $table->text('description'); // Mô tả sản phẩm
+            $table->string('made'); // Nơi sản xuất
+            $table->timestamps(); // Tạo hai trường create_at và update_at tự động
+            $table->boolean('active')->default(true); // Trạng thái active (true/false)
         });
     }
 
