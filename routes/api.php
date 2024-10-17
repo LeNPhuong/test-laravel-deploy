@@ -39,9 +39,7 @@ Route::group([
     'prefix' => 'categories',
 ], function ($router) {
 
-    Route::get('/', action: [CategoriesController::class, 'index']);
-    Route::get('/{id}', [ProductController::class, 'show']);
-    Route::post('/products', [AuthController::class, 'profile'])->middleware('auth:api');
+    Route::get('/', [CategoriesController::class, 'index']);
 });
 
 

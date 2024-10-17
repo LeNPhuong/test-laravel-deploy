@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     public function index()
     {
@@ -24,7 +23,7 @@ class ProductController extends Controller
         });
 
 
-        return response()->json($products);
+        return $this->sendResponse($products, 'Lấy sản phẩm thành công');
     }
     public function show($id)
     {
@@ -41,9 +40,9 @@ class ProductController extends Controller
 
         // Kiểm tra nếu sản phẩm tồn tại
         if (!$productDetail) {
-            return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
+            return $this->sendError('Sản phẩm không tồn tại', ['error' => 'Sản phẩm không tồn tại'], 404);
         }
 
-        return response()->json($productDetail);
+        return $this->sendResponse($productDetail, 'Lấy sản phẩm chi tiết thành công');
     }
 }
