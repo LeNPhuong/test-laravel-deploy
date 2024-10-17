@@ -39,8 +39,11 @@ class AuthController extends BaseController
     public function login()
     {
         $credentials = request(['email', 'password']);
-        // Kiểm tra xác thực
-        if (!$token = auth()->attempt($credentials)) {
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        // Kiểm tra nếu người dùng không tồn tại hoặc không hoạt động
+        if (!$token = auth()->attempt($credentials) && $user->active) {
             return $this->sendError('Không được chấp nhận', ['error' => 'Unathorized'], 401);
         }
         // Trả về token
