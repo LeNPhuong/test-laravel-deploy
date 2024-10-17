@@ -17,7 +17,6 @@ class CategorySeeder extends Seeder
         $now = Carbon::now();
 
         DB::table('categories')->insert([
-            ['name' => 'KHUYẾN MÃI', 'key' => 'khuyen-mai', 'active' => true, 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'RAU CỦ', 'key' => 'rau-cu', 'active' => true, 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'GIA VỊ', 'key' => 'gia-vi', 'active' => true, 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'GAO BỘT', 'key' => 'gao-bot', 'active' => true, 'created_at' => $now, 'updated_at' => $now],

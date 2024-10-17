@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,15 @@ Route::group([
     //Thông tin tài khoản
     Route::get('/{id}', [UserController::class, 'show'])->middleware('auth:api'); // Lấy thông tin người dùng theo id
     Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api'); // Cập nhật thông tin người dùng
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'products',
+], function ($router) {
+
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
 });
 
 
