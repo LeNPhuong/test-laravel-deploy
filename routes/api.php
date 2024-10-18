@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -21,7 +22,6 @@ Route::group([
     //Thông tin tài khoản
     Route::get('/{id}', [UserController::class, 'show'])->middleware('auth:api'); // Lấy thông tin người dùng theo id
     Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api'); // Cập nhật thông tin người dùng
-
 });
 
 Route::group([
@@ -31,7 +31,6 @@ Route::group([
 
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
-    Route::post('/products', [AuthController::class, 'profile'])->middleware('auth:api');
 });
 
 Route::group([
@@ -42,6 +41,7 @@ Route::group([
     Route::get('/', [CategoriesController::class, 'index']);
 });
 
+Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
 
 //Demo phân quyền
 // Route::middleware(['auth:api', 'admin'])->group(function () {

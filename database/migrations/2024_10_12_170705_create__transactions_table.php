@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column: 'user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId(column: 'status_id')->nullable()->constrained('status')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
             $table->float('trans_amount');
             $table->string('note',191);
             $table->tinyInteger('payment_method');

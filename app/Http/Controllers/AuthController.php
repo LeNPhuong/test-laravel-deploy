@@ -43,12 +43,16 @@ class AuthController extends BaseController
         $user = User::where('email', $credentials['email'])->first();
 
         // Kiểm tra nếu người dùng không tồn tại hoặc không hoạt động
-        if (!$token = auth()->attempt($credentials) && $user->active) {
-            return $this->sendError('Không được chấp nhận', ['error' => 'Unathorized'], 401);
+        if (!$user || !$user->active) {
+            return $this->sendError('Không được chấp nhận', ['error' => 'User not found or inactive'], 401);
+        }
+
+        // Thực hiện xác thực với credentials
+        if (!$token = auth()->attempt($credentials)) {
+            return $this->sendError('Không được chấp nhận', ['error' => 'Unauthorized'], 401);
         }
         // Trả về token
         $success = $this->respondWithToken($token);
-
         return $this->sendResponse($success, 'Đăng nhập thành công');
     }
     public function refresh()

@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column: 'user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId(column: 'transaction_id')->nullable()->constrained('transactions')->onDelete('set null');
-            $table->foreignId(column: 'status_id')->nullable()->constrained('status')->onDelete('set null');
-            $table->foreignId(column: 'voucher_id')->nullable()->constrained('vouchers')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
+            $table->foreignId('voucher_id')->nullable()->constrained('vouchers')->onDelete('set null');
             $table->float('total_amount');
-            $table->float('total_amount_after_sale');
-            $table->enum('delivery_method',['fast', 'normal'])->default('normal');
-            $table->timestamp('order_date');
+            $table->timestamps();
         });
     }
 

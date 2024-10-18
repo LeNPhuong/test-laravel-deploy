@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id(); // ID của sản phẩm
-            $table->foreignId(column: 'cate_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->foreignId('cate_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->string('name'); // Tên sản phẩm
             $table->decimal('price', 10, 2); // Giá sản phẩm (số thập phân)
             $table->integer('sale')->unsigned()->default(0); // Sale (phần trăm giảm giá, không lớn hơn 100 và không nhỏ hơn 0)
