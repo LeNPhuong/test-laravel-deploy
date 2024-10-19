@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
-            $table->string('code',50);
-            $table->string('status');
+            $table->string('code', 50);
+            $table->boolean('active')->default(true); // Trạng thái active (true/false)
             $table->enum('discount_type', ['percentage', 'fixed_amount'])->default('percentage');
-            $table->decimal('discount_value',10,2);
-            $table->decimal('max_discount_value',10,2)->nullable();
-            $table->string('description',255);
+            $table->decimal('discount_value', 10, 2);
+            $table->decimal('max_discount_value', 10, 2)->nullable();
+            $table->string('description', 255);
             $table->integer('quantity');
             $table->integer('used');
             $table->timestamp('start_date');

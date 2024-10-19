@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('status_id')->nullable()->constrained('status')->onDelete('set null');
-            $table->float('trans_amount');
-            $table->string('note',191);
+            $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('set null');
+            $table->float('total_amount');
+            $table->string('note',191)->nullable();
+            $table->string('name')->nullable();
+            $table->string('phone', 191)->nullable();
+            $table->string('email')->nullable();
             $table->tinyInteger('payment_method');
-            $table->timestamp('trans_date');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });
