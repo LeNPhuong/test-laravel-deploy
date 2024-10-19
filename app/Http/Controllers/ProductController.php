@@ -18,7 +18,7 @@ class ProductController extends BaseController
             }, 'category.units' => function ($query) {
                 $query->where('active', 1); // Lấy đơn vị có active = 1
             }])
-                ->select('id', 'cate_id', 'name', 'price', 'sale', 'img', 'type', 'description', 'made', 'active')
+                ->select('id', 'cate_id', 'name', 'price', 'sale', 'img', 'quantity', 'description', 'made', 'active')
                 ->get();
         });
 

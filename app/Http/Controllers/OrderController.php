@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends BaseController
@@ -65,6 +66,9 @@ class OrderController extends BaseController
                     $product->quantity -= $item['quantity'];
                     $product->save();
 
+                    // Xóa cache sau khi cập nhật
+                    Cache::forget('active_products');
+                    
                     // Lưu chi tiết đơn hàng
                     OrderDetail::create([
                         'order_id' => $order->id,
