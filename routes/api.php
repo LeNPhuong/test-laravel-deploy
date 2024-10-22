@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,11 @@ Route::group([
 
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
+    Route::post('/{productId}/comment', [CommentController::class, 'store'])->middleware('auth:api');
 });
+Route::post('comments/{commentId}/toggleLike', [CommentController::class, 'toggleLike'])->middleware('auth:api');
+Route::get('comments/{productId}', [CommentController::class, 'show']);
+
 
 Route::group([
     'middleware' => 'api',
@@ -43,7 +48,7 @@ Route::group([
 });
 
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
-Route::post('/vouchers', [VoucherController::class, 'getVoucher']);
+Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
 
 //Demo phân quyền
 // Route::middleware(['auth:api', 'admin'])->group(function () {

@@ -26,7 +26,7 @@ class OrderController extends BaseController
             $voucher = null;
             if ($request->voucher_id) {
                 $voucher = Voucher::find($request->voucher_id);
-                if (!$voucher || !$voucher->is_active) {
+                if (!$voucher || !$voucher->active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
                     return $this->sendError('Voucher không hợp lệ hoặc đã hết hạn!', '', 400);
                 }
             }
@@ -46,14 +46,29 @@ class OrderController extends BaseController
                 return $this->sendResponse($existingOrder, 'Bạn đã có một đơn hàng chưa hoàn thành. Bạn có thể thanh toán cho đơn hàng này.');
             }
 
+            // Tính toán tổng số tiền
+            $totalAmount = array_sum(array_map(function ($item) {
+                return $item['price'] * $item['quantity'];
+            }, $cart));
+
+            // Nếu có voucher hợp lệ, áp dụng chiết khấu
+            if ($voucher) {
+                $discount = 0;
+                if ($voucher->discount_type === 'percentage') {
+                    $discount = ($totalAmount * $voucher->discount_value) / 100;
+                } else {
+                    $discount = $voucher->discount_value;
+                }
+                $discount = min($discount, $voucher->max_discount_value); // Không vượt quá giá trị tối đa
+                $totalAmount -= $discount; // Giảm tổng số tiền
+            }
+
             // Tạo đơn hàng
             $order = new Order();
             $order->user_id = auth()->user()->id;
-            $order->voucher_id = $request->voucher_id ?? null;
-            $order->total_amount = array_sum(array_map(function ($item) {
-                return $item['price'] * $item['quantity'];
-            }, $cart));
-            $order->status_id = 1;
+            $order->voucher_id = $request->voucher_id ?? null; 
+            $order->total_amount = $totalAmount;
+            $order->status_id = 1; // Trạng thái 'đang chờ thanh toán'
             $order->save();
 
             // Lưu từng sản phẩm vào bảng order_items
@@ -68,7 +83,7 @@ class OrderController extends BaseController
 
                     // Xóa cache sau khi cập nhật
                     Cache::forget('active_products');
-                    
+
                     // Lưu chi tiết đơn hàng
                     OrderDetail::create([
                         'order_id' => $order->id,

@@ -13,11 +13,13 @@ class ProductController extends BaseController
         // $products = Product::with('category')->where('active', 1)->get();
 
         $products = Cache::remember('active_products', 60, function () {
-            return Product::with(['category' => function ($query) {
-                $query->where('active', 1); // Lấy danh mục có active = 1
-            }, 'category.units' => function ($query) {
-                $query->where('active', 1); // Lấy đơn vị có active = 1
-            }])
+            return Product::with([
+                'category' => function ($query) {
+                    $query->where('active', 1); // Lấy danh mục có active = 1
+                }, 'category.units' => function ($query) {
+                    $query->where('active', 1); // Lấy đơn vị có active = 1
+                }
+            ])
                 ->select('id', 'cate_id', 'name', 'price', 'sale', 'img', 'quantity', 'description', 'made', 'active')
                 ->get();
         });
@@ -29,12 +31,18 @@ class ProductController extends BaseController
     {
         // Sử dụng cache để lưu trữ chi tiết sản phẩm
         $productDetail = Cache::remember("product_detail_{$id}", 60, function () use ($id) {
-            return Product::with(['category' => function ($query) {
-                $query->where('active', 1); // Lấy danh mục có active = 1
-            }, 'category.units' => function ($query) {
-                $query->where('active', 1); // Lấy đơn vị có active = 1
-            }])
-                ->select('id', 'cate_id', 'name', 'price', 'sale', 'img', 'type', 'description', 'made', 'active')
+            return Product::with([
+                'category' => function ($query) {
+                    $query->where('active', 1); // Lấy danh mục có active = 1
+                }, 'category.units' => function ($query) {
+                    $query->where('active', 1); // Lấy đơn vị có active = 1
+                }, 'comments' => function ($query) {
+                    $query->select('id', 'product_id', 'user_id', 'rating', 'comment', 'likes', 'created_at') // Chọn các trường từ bảng comments
+                        ->where('product_id', '!=', null) // Chỉ lấy các bình luận của sản phẩm
+                        ->with(['user:id,name,email']); // Eager load thông tin user (chỉ lấy id, name, email)
+                }
+            ])
+                ->select('id', 'cate_id', 'name', 'price', 'sale', 'img', 'quantity', 'description', 'made', 'active')
                 ->find($id); // Tìm sản phẩm theo ID
         });
 

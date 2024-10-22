@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'cate_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id');
+    }
 }

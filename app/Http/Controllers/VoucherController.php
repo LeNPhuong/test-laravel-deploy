@@ -11,7 +11,7 @@ class VoucherController extends BaseController
     {
         try {
 
-            // Lấy thời gian hiện tại
+            // Lấy thời gian hiện tại   
             $currentDate = Carbon::now();
             // Lấy các voucher hợp lệ:
             // - Trạng thái phải là 'active'

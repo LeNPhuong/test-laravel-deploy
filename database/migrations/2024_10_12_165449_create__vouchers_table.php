@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('max_discount_value', 10, 2)->nullable();
             $table->string('description', 255);
             $table->integer('quantity');
-            $table->integer('used');
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->timestamp('created_at');
