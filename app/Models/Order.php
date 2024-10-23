@@ -12,6 +12,14 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'user_id','status_id', 'voucher_id','total_amount'
+        'user_id', 'status_id', 'voucher_id', 'total_amount'
     ];
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
 }

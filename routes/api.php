@@ -48,7 +48,11 @@ Route::group([
 });
 
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
+//Đơn hàng
+Route::get('/orders/{id}', [OrderController::class, 'getOrderDetails'])->middleware('auth:api');
+Route::get('/get-orders', [OrderController::class, 'getOrders'])->middleware('auth:api');
 Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
+
 
 //Demo phân quyền
 // Route::middleware(['auth:api', 'admin'])->group(function () {
