@@ -67,7 +67,7 @@ class OrderController extends BaseController
             $order = new Order();
             $order->user_id = auth()->user()->id;
             $order->voucher_id = $request->voucher_id ?? null; 
-            $order->total_amount = $totalAmount;
+            $order->total_price = $totalAmount;
             $order->status_id = 1; // Trạng thái 'đang chờ thanh toán'
             $order->save();
 

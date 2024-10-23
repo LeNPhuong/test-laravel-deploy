@@ -7,6 +7,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +17,7 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
 ], function ($router) {
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post( '/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
@@ -42,7 +44,7 @@ Route::get('comments/{productId}', [CommentController::class, 'show']);
 Route::group([
     'middleware' => 'api',
     'prefix' => 'categories',
-], function ($router) {
+    ], function ($router) {
 
     Route::get('/', [CategoriesController::class, 'index']);
 });
@@ -50,12 +52,18 @@ Route::group([
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
 Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
 
-//Demo phân quyền
-// Route::middleware(['auth:api', 'admin'])->group(function () {
-//     Route::get('/admin/dashboard', function() {
-//         die('123');
-//     });
+// Demo phân quyền
+// Route::group([
+//     'middleware' => ['api','admin'],
+//     'prefix' => 'admin',
+// ], function ($router){
 // });
+
+
+Route::middleware(['auth:api', 'admin'])->group(function () {
+    Route::get('admin/dashboard', [DashboardController::class, 'index']);
+    Route::get('admin/dashboard', [UserController::class, 'index']);
+});
 
 
 Route::get('/user', function (Request $request) {

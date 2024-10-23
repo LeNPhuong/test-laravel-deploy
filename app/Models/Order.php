@@ -12,6 +12,6 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'user_id','status_id', 'voucher_id','total_amount'
+        'user_id','status_id', 'voucher_id','total_price'
     ];
 }
