@@ -8,7 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +50,11 @@ Route::group([
 });
 
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
+//Đơn hàng
+Route::get('/orders/{id}', [OrderController::class, 'getOrderDetails'])->middleware('auth:api');
+Route::get('/get-orders', [OrderController::class, 'getOrders'])->middleware('auth:api');
 Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
+
 
 // Demo phân quyền
 // Route::group([
@@ -62,7 +66,7 @@ Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
 
 Route::middleware(['auth:api', 'admin'])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index']);
-    Route::get('admin/dashboard', [UserController::class, 'index']);
+    Route::get('admin/dashboard',[AdminUserController::class, 'index']);
 });
 
 

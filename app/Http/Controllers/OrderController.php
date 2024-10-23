@@ -12,6 +12,31 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends BaseController
 {
+
+    public function getOrders()
+    {
+        // Lấy danh sách đơn hàng của người dùng, bao gồm thông tin về status
+        $orders = Order::with(['status', 'orderDetails.product'])->get();
+        // Kiểm tra nếu không có đơn hàng nào
+        if ($orders->isEmpty()) {
+            return $this->sendError('Không có đơn hàng nào!', '', 404);
+        }
+
+        return $this->sendResponse($orders, 'Lấy danh sách đơn hàng thành công.');
+
+    }
+    public function getOrderDetails($orderId)
+    {
+        $orderDetails = OrderDetail::with('product')
+            ->where('order_id', $orderId)
+            ->get();
+
+        if ($orderDetails->isEmpty()) {
+            return $this->sendError('Đơn hàng không tồn tại hoặc không có chi tiết!', '', 404);
+        }
+
+        return $this->sendResponse($orderDetails, 'Chi tiết đơn hàng.');
+    }
     public function checkout(Request $request)
     {
         DB::beginTransaction(); // Bắt đầu transaction để đảm bảo dữ liệu nhất quán

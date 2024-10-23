@@ -18,6 +18,6 @@ class AdminMiddleware
         if (auth()->user() && auth()->user()->role === 'admin') {
             return $next($request);
         }
-        return response()->json(['message' => 'Access denied'], 403);
+        return response()->json(['message' => 'Đăng nhập bị từ chối bởi vì sai quyền'], 403);
     }
 }
