@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('set null');
-            $table->float('total_amount');
+            $table->float('total_price');
             $table->string('note',191)->nullable();
             $table->string('name')->nullable();
             $table->string('phone', 191)->nullable();
