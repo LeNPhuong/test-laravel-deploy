@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ProductController extends BaseController
@@ -52,5 +53,14 @@ class ProductController extends BaseController
         }
 
         return $this->sendResponse($productDetail, 'Lấy sản phẩm chi tiết thành công');
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('query');
+
+        $products = Product::search($searchTerm)->get();
+
+        return response()->json($products);
     }
 }

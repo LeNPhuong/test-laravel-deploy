@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -20,7 +21,9 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
     Route::post('/profile', [AuthController::class, 'profile'])->middleware('auth:api');
-
+    //Đơn hàng
+    Route::get('/orders/{id}', [OrderController::class, 'getOrderDetails'])->middleware('auth:api');
+    Route::get('/get-orders', [OrderController::class, 'getOrders'])->middleware('auth:api');
     //Thông tin tài khoản
     Route::get('/{id}', [UserController::class, 'show'])->middleware('auth:api'); // Lấy thông tin người dùng theo id
     Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api'); // Cập nhật thông tin người dùng
@@ -32,6 +35,7 @@ Route::group([
 ], function ($router) {
 
     Route::get('/', [ProductController::class, 'index']);
+    Route::get('/search', [ProductController::class, 'search']);
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::post('/{productId}/comment', [CommentController::class, 'store'])->middleware('auth:api');
 });
@@ -48,9 +52,7 @@ Route::group([
 });
 
 Route::post('/checkout', [OrderController::class, 'checkout'])->middleware('auth:api');
-//Đơn hàng
-Route::get('/orders/{id}', [OrderController::class, 'getOrderDetails'])->middleware('auth:api');
-Route::get('/get-orders', [OrderController::class, 'getOrders'])->middleware('auth:api');
+Route::post('/payment', [PaymentController::class, 'processPayment']);
 Route::get('/vouchers', [VoucherController::class, 'getVoucher']);
 
 
